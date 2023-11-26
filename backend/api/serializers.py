@@ -14,11 +14,11 @@ from .constants import LENGTH, EMAIL_LENGTH
 from users.validators import validate_username
 
 
-# class CategorySerializer(serializers.ModelSerializer):
-#    class Meta:
-#        model = Category
-#        fields = '__all__'
-#
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
+
 
 class Base64ImageField(ImageField):
     def to_internal_value(self, data):
