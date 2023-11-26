@@ -8,12 +8,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from users.models import User
 
-from api import serializers
+from api import serializers, permissions
 
-from subscribtions.models import Category
+from subscribtions.models import Category, Subscription
 
-
-# Create your views here.
 
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
@@ -41,3 +39,20 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer
     pagination_class = None
+
+
+class SubscribtionViewSet(viewsets.ModelViewSet):
+    queryset = Subscription.objects.all()
+    permission_classes = (permissions.IsAuthenticatedAuthorOrReadOnly,)
+
+    http_method_names = ['get', 'post', 'delete', 'patch']
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return serializers.SubscribtionSerializer
+        return serializers.NewSubscribtionSerializer
+
+

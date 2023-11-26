@@ -4,20 +4,15 @@ from django.core.files.base import ContentFile
 from rest_framework.fields import ImageField
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
+from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.validators import UniqueValidator
 
-from subscribtions.models import Category
+from subscribtions.models import Category, Subscription
 
 from users.models import User
 
 from .constants import LENGTH, EMAIL_LENGTH
 from users.validators import validate_username
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('id', 'name')
 
 
 class Base64ImageField(ImageField):
@@ -52,3 +47,29 @@ class CustomUserSerializer(UserSerializer):
         model = User
         fields = ('id', 'email', 'username', 'first_name', 'image',
                   'last_name')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
+
+
+class SubscribtionSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=True)
+    author = CustomUserSerializer()
+
+    class Meta:
+        model = Subscription
+        fields = ('id', 'author', 'name', 'category', 'price', 'data')
+
+
+class NewSubscribtionSerializer(serializers.ModelSerializer):
+    category = PrimaryKeyRelatedField(queryset=Category.objects.all(),
+                                      many=True)
+    author = CustomUserSerializer(read_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = ('id', 'author', 'name', 'category', 'price', 'data')
+

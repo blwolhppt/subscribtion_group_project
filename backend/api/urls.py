@@ -6,7 +6,7 @@ from api import views
 router = SimpleRouter()
 
 router.register('category', views.CategoryViewSet)
-# router.register('subscription', views.SubscriptionViewSet)
+router.register('subscribtion', views.SubscribtionViewSet)
 router.register('users', views.CustomUserViewSet)
 
 
