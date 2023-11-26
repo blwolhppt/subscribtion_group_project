@@ -20,6 +20,8 @@ class User(AbstractUser):
                                 verbose_name='Никнейм')
 
     image = models.ImageField(verbose_name='Картинка профиля',
+                              blank=False,
+                              null=False,
                               upload_to='users/')
 
     first_name = models.CharField(max_length=LENGTH,
