@@ -73,3 +73,4 @@ class NewSubscribtionSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = ('id', 'author', 'name', 'category', 'price', 'data')
 
+

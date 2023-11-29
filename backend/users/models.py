@@ -18,6 +18,11 @@ class User(AbstractUser):
                                 blank=False,
                                 null=False,
                                 verbose_name='Никнейм')
+    number = models.CharField(max_length=20,
+                              unique=True,
+                              blank=False,
+                              null=False,
+                              verbose_name='Телефон')
 
     image = models.ImageField(verbose_name='Картинка профиля',
                               blank=False,

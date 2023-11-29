@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
 
 from rest_framework import status, viewsets
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 from users.models import User
 
 from api import serializers, permissions
+from api.filters import SubsFilter
 
 from subscribtions.models import Category, Subscription
 
@@ -44,6 +46,8 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 class SubscribtionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     permission_classes = (permissions.IsAuthenticatedAuthorOrReadOnly,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = SubsFilter
 
     http_method_names = ['get', 'post', 'delete', 'patch']
 
