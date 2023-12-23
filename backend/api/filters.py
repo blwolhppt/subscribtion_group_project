@@ -6,8 +6,8 @@ from subscribtions.models import Subscription, Category
 
 class SubsFilter(FilterSet):
     category = django_filters.ModelMultipleChoiceFilter(
-        field_name='category__name',
-        to_field_name='name',
+        field_name='category__id',
+        to_field_name='id',
         queryset=Category.objects.all())
 
     class Meta:
